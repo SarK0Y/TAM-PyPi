@@ -2,7 +2,7 @@ import os
 import sys
 import re
 import codecs
-from tam import info_struct, checkArg, get_arg_in_cmd
+from tam import info_struct, checkArg, get_arg_in_cmd, achtung
 import subprocess as sp
 import random
 def cpy_file(old: str, new: str):
@@ -86,7 +86,8 @@ def build_pkg():
     if build_dir is None:
         print("You didn't set -build-dir")
         build_dir = str(input("Please, set build directory: "))
-        os.system(f"rm -f {build_dir}/dist/*")
+    os.system(f"find {build_dir}/dist/ -type f|xargs rm -f")
+    achtung(f"dist = {build_dir}/dist/")    
     cmd = f"python3 -m build {build_dir}/"
     run_process_w_output(cmd)
 def make_all():
