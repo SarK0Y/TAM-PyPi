@@ -5,6 +5,10 @@ import codecs
 from tam import info_struct, checkArg, get_arg_in_cmd, achtung
 import subprocess as sp
 import random
+class main:
+    ver = 1
+    rev = 1
+    author = info_struct.author
 def cpy_file(old: str, new: str):
     cmd = f"cp -af {old} {new}"
     os.system(cmd)
