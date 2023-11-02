@@ -25,11 +25,13 @@ try:
     from sark0y_tam import _subTern as subtern
 except ModuleNotFoundError:
     pass
+except ImportError:
+    pass
 """"""
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9-76"
+    rev = "9-78"
     author = "Evgeney Knyazhev (SarK0Y)"
     year = '2023'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
@@ -474,7 +476,7 @@ def switch_global_list(Key: str):
         return "cont"
 def list_from_file(cmd: str) -> list:
     funcName = "list_from_file"
-    list0 = run_cmd(cmd)
+    list0 = run_cmd1(cmd)
     try:
         out = copy.copy(list0[0])
         err = copy.copy(list0[1])
@@ -513,6 +515,15 @@ def run_cmd(cmd: str, opts: str, timeout0: float = 100) -> list:
     cmd = [f"{str(cmd)} {str(opts)}", ]
     p = sp.Popen(cmd, shell=True, stderr=sp.PIPE, stdout=sp.PIPE)
     return p.communicate(timeout=timeout0)
+def run_cmd1(cmd: str, timeout0: float = 100) -> list:
+    cmd = [f"{str(cmd)}", ]
+    stderr0_name = f"/tmp/run_cmd_err{str(random.random())}"
+    stderr0 = open(stderr0_name, "w+")
+    stdout0_name = f"/tmp/run_cmd_out{str(random.random())}"
+    stdout0 = open(stdout0_name, "w+")
+    p = sp.Popen(cmd, shell=True, stderr=stderr0, stdout=stdout0)
+    p.communicate()
+    return [stdout0_name, stderr0_name]
 def run_cmd0(cmd: str, timeout0: float = 100) -> list:
     cmd = [f"{str(cmd)}", ]
     stderr0_name = f"/tmp/run_cmd_err{str(random.random())}"
@@ -930,6 +941,14 @@ def SetDefaultKonsoleTitle(addStr = ""):
     out = get_arg_in_cmd("-path0", sys.argv)
     find_all_tam_consoles()
     konsole_id = len(globalLists.tam_instances.name)
+    not_sure_4_uniq = re.compile(f"{Markers.console_title}{konsole_id}")
+    for id in globalLists.tam_instances.name:
+        try:
+            if not_sure_4_uniq.match(id).group(0):
+                konsole_id += 1
+                break
+        except AttributeError:
+            pass
     try:
         out += f" {put_in_name()}"
         out = out.replace("'", "")
@@ -937,7 +956,7 @@ def SetDefaultKonsoleTitle(addStr = ""):
     except TypeError:
         out = f"cmd is empty {put_in_name()}"
     page_struct.KonsoleTitle = f"{Markers.console_title}{konsole_id} {out}"
-    os.system(f"echo -ne '\033]30;{out}{addStr}\007'")
+    os.system(f"echo -ne '\033]30;{page_struct.KonsoleTitle}{addStr}\007'")
 def adjustKonsoleTitle(addStr: str, ps: page_struct) -> None:
     if modes.switch_2_nxt_tam.state: return
     os.system(f"echo -ne '\033]30;{ps.KonsoleTitle}{addStr}\007'")
