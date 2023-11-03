@@ -31,7 +31,7 @@ except ImportError:
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9-78"
+    rev = "9-80"
     author = "Evgeney Knyazhev (SarK0Y)"
     year = '2023'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
@@ -172,6 +172,7 @@ class var_4_hotKeys:
 # Terminals
 class Markers:
     console_title: str = "∇∞∇"
+    console_title_pefix: str = ""
 class kCodes:
     Key = None
 def keyCodes():
@@ -796,17 +797,10 @@ tmp.table, tmp.too_short_row = make_page_of_tam_list(globalLists.fileListMain, p
                 inlines.switch_make_page = inlines.make_page_of_files2
                 globalLists.fileListMain = globalLists.fileListMain0
                 modes.path_autocomplete.state = modes.switch_2_nxt_tam.state = False
+                globalLists.ls = []
                 try:
                     go2 = f"go2 {__manage_pages.ps_bkp.num_page}"
                 except AttributeError:
-                    go2 = "go2 0"
-            else:
-                globalLists.fileListMain = globalLists.ls
-                modes.path_autocomplete.state = True
-                try:
-                    go2 = f"go2 {modes.path_autocomplete.page_struct.num_page}"
-                except AttributeError:
-                    achtung("au")
                     go2 = "go2 0"
             writeInput_str(var_4_hotKeys.prompt, var_4_hotKeys.prnt, full_length)
             return go2
@@ -955,7 +949,7 @@ def SetDefaultKonsoleTitle(addStr = ""):
         if(checkArg("-dirty")): print(f"konsole title = {out}")
     except TypeError:
         out = f"cmd is empty {put_in_name()}"
-    page_struct.KonsoleTitle = f"{Markers.console_title}{konsole_id} {out}"
+    page_struct.KonsoleTitle = f"{Markers.console_title_pefix}{Markers.console_title}{konsole_id} {out}"
     os.system(f"echo -ne '\033]30;{page_struct.KonsoleTitle}{addStr}\007'")
 def adjustKonsoleTitle(addStr: str, ps: page_struct) -> None:
     if modes.switch_2_nxt_tam.state: return
@@ -1610,6 +1604,7 @@ def cmd():
     if checkArg("-ver") or checkArg("--version"):
         info()
     if checkArg("-title-mark"): Markers.console_title = get_arg_in_cmd("-title-mark")
+    if checkArg("-prefix-title-mark"): Markers.console_title_pefix = f"{get_arg_in_cmd('-prefix-title-mark')}"
     subtern.init_user_logs()
     var_4_hotKeys.prnt = ""
     if checkArg("-dirty"):
