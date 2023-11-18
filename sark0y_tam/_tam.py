@@ -28,7 +28,7 @@ except ImportError: pass
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9-101"
+    rev = "9-105"
     author = "Evgeney Knyazhev (SarK0Y)"
     year = '2023'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
@@ -134,6 +134,7 @@ class page_struct:
 class ps0:
     init: bool = False
     ps: page_struct
+    sieve: page_struct
     def __init__(self) -> None:
         ps0.ps = page_struct()
         ps0.ps.num_cols = 1
@@ -376,6 +377,7 @@ def handleENTER(fileName: str) -> str:
     return var_4_hotKeys.prnt
 def handleTAB(prompt: str):
     funcName = "handleTAB"
+    if modes.sieve.state: globalLists.fileListMain = globalLists.filtered
     ptrn = re.compile('ren\s+\-?\d+|cp\s+\-?\d+', re.IGNORECASE | re.UNICODE)
     regex_result = ptrn.search(var_4_hotKeys.prnt)
     if keys.dirty_mode: print(f"{regex_result.group(0)}, {len(regex_result.group(0))}, {var_4_hotKeys.prnt}")
@@ -689,8 +691,11 @@ def delFile(fileName: str, cmd: str, dontDelFromTableJustMark = True) -> str:
     if False == heyFile and dontDelFromTableJustMark == False:
         globalLists.fileListMain.remove(int(fileIndx.group(0)))
     if not heyFile and dontDelFromTableJustMark:
-        if modes.sieve.state: globalLists.fileListMain0[int(fileIndx.group(0))] = f"{globalLists.filtered[int(fileIndx.group(0))]}::D"
-        elif modes.path_autocomplete.state: globalLists.fileListMain0[int(fileIndx.group(0))] = f"{globalLists.fileListMain0[int(fileIndx.group(0))]}::D"
+        if modes.sieve.state: 
+            globalLists.fileListMain0.insert(int(fileIndx.group(0)), f"{globalLists.filtered[int(fileIndx.group(0))]}::D")
+            globalLists.filtered[int(fileIndx.group(0))] = f"{globalLists.filtered[int(fileIndx.group(0))]}::D"
+            globalLists.fileListMain = globalLists.fileListMain0
+        #elif modes.path_autocomplete.state: globalLists.fileListMain0[int(fileIndx.group(0))] = f"{globalLists.fileListMain0[int(fileIndx.group(0))]}::D"
         else: 
             globalLists.fileListMain[int(fileIndx.group(0))] = f"{globalLists.fileListMain0[int(fileIndx.group(0))]}::D"
             globalLists.fileListMain0[int(fileIndx.group(0))] = f"{globalLists.fileListMain0[int(fileIndx.group(0))]}::D"
@@ -1244,24 +1249,28 @@ def cmd_page(cmd: str, ps: page_struct, fileListMain: list):
             modes.sieve.state = True
             globalLists.fileListMain = globalLists.filtered
             ps.num_page = 0
+            return
         else: errMsg("No records were found", funcName, 1)
         modes.sieve.state = False
         return
     lp = len(globalLists.fileListMain) // (ps.num_cols * ps.num_rows)
     if cmd == "np":
-        ps.num_page += 1
-        if ps.num_page > lp:
+       ps.num_page += 1
+       page_struct.num_page = ps.num_page
+       if ps.num_page > lp:
             ps.num_page = lp
-        return
+       return
     if cmd == "pp":
         if ps.num_page > 0:
             ps.num_page -= 1
+            page_struct.num_page = ps.num_page
         return
     if cmd == "0p":
         ps.num_page = 0
         return
     if cmd == "lp":
         ps.num_page = lp
+        page_struct.num_page = ps.num_page
         return
     if cmd[0:3] == "go2":
         _, ps.num_page = cmd.split()
@@ -1362,6 +1371,7 @@ def manage_pages(fileListMain: list, ps: page_struct): #once0: once = once.once_
             help()
             cmd = custom_input("Please, enter Your command: ")
         else:
+            if modes.sieve.state: globalLists.fileListMain = globalLists.filtered
             cmd_page(cmd, ps, globalLists.fileListMain)
         try:
             if modes.path_autocomplete.state:
