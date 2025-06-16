@@ -34,7 +34,8 @@ jobs:
     - name: Build package
       run: python -m build
     - name: Publish package
-      env:
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
         user: __token__
         password: ${{ secrets.TOKEN_FROM_SARK0Y }}
-      run: python -m twine upload --repository pypi dist/*
+      #run: python -m twine upload --repository pypi dist/*
