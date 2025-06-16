@@ -37,4 +37,4 @@ jobs:
       env:
         user: __token__
         password: ${{ secrets.TOKEN_FROM_SARK0Y }}
-      run: echo "jj"
+      run: python -m twine upload --repository pypi dist/*
