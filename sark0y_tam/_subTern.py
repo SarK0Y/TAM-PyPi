@@ -317,7 +317,7 @@ def term_app(cmd: str, std_in_out = [int, int]) -> sp.Popen:
     if cmd == "":
         cmd = "echo Enter Your command, Please"
     #tam.achtung(cmd)
-    tam.errMsg(cmd, funcName)
+    tam.errMsg_dbg(cmd, funcName)
     if cmd[:2] == "mc": 
             modes.mc.active = True
             modes.prime_stdin = True

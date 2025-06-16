@@ -38,7 +38,7 @@ except ImportError: pass
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9-117"
+    rev = "9.118"
     author = "Evgeney Knyazhev (SarK0Y)"
     year = '2023'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
@@ -1219,6 +1219,7 @@ def run_viewers(c2r: childs2run, fileListMain: list, cmd: str):
         cmd_line = f'{c2r.viewer[viewer_indx]}' + ' ' + f"{file2run} > /dev/null 2>&1"
     else: cmd_line = f'{c2r.viewer[viewer_indx]}' + ' ' + f"{file2run}"
     cmd = [cmd_line,]
+    errMsg_dbg(f"{cmd_line}", funcName)
     stderr0 = f"/tmp/run_viewers{str(random.random())}"
     stderr0 = open(stderr0, "w+")
     t = None
