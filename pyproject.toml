@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sark0y_tam"
-version = "1.9.119"
+version = "1.9.120"
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [
     { name = "Evgeney Knyazhev (SarK0Y)", email = "sark0y@protonmail.com" },
