@@ -38,9 +38,9 @@ except ImportError: pass
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9.119"
+    rev = "9.120"
     author = "Evgeney Knyazhev (SarK0Y)"
-    year = '2023'
+    year = '2023-2025'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
 stopCode = "∇\n"
 class tmp:
@@ -1805,6 +1805,16 @@ def get_arg_in_cmd(key: str, argv: list = sys.argv) -> str|None:
         key0 = argv[i]
         if key0 == key:
             ret = argv[i + 1]
+    return ret
+def get_arg_in_cmd_from(from0: int, key: str, argv: list = sys.argv) -> (str|None, int):
+    cmd_len = len(argv)
+    ret: (str|None, int) = (None, 1)
+    if from0 > cmd_len:
+    	return ret
+    for i in range(from0, cmd_len):
+        key0 = argv[i]
+        if key0 == key:
+            return argv[i + 1], i
     return ret
 def if_no_quotes(num0: int, cmd_len:int) -> str:
     funcName = "if_no_quotes"
