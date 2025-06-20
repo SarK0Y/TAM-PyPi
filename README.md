@@ -1,4 +1,4 @@
-
+**Tip: Dear User, You** can install more sophisticated variant of **TAM** - just **cargo install sark0y_tam_rst**
 # Project TAM.
 # GOAL:
 
