@@ -38,7 +38,7 @@ except ImportError: pass
 #MAIN
 class info_struct:
     ver = 1
-    rev = "9.120"
+    rev = "9.121"
     author = "Evgeney Knyazhev (SarK0Y)"
     year = '2023-2025'
     telega = "https://t.me/+N_TdOq7Ui2ZiOTM6"
